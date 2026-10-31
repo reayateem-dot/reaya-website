@@ -32,10 +32,29 @@ const HOSPITALS = [
 const REC_TYPES = { history: 'تاريخ مرضي', allergy: 'حساسية', condition: 'حالة مزمنة', report: 'تقرير', lab: 'نتيجة تحليل', rx: 'روشتة', doc: 'مستند' };
 const TODAY = () => new Date().toISOString().slice(0, 10);
 
+/* أيقونات SVG موحّدة: نفس المقاس الأساسي (24) ونفس سمك الخط، وبتاخد لون النص تلقائيًا */
+const PATHS = {
+  home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+  doctors: '<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M5 3h2M13 3h2"/><path d="M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
+  pharmacies: '<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
+  labs: '<path d="M9 3h6"/><path d="M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2.2h12.4a1.5 1.5 0 0 0 1.3-2.2L14 9V3"/><path d="M7.5 15h9"/>',
+  hospitals: '<path d="M4 21V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v16"/><path d="M2 21h20"/><path d="M12 8v6M9 11h6"/><path d="M10 21v-3h4v3"/>',
+  file: '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2Z"/><path d="M12 16.2c-2-1.4-3.2-2.4-3.2-3.7a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 1.3-1.2 2.3-3.2 3.7Z"/>',
+  meds: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  assistant: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z"/>',
+  star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9Z"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>',
+  clip: '<path d="m21 11-8.6 8.6a5 5 0 0 1-7.1-7.1l8.6-8.6a3.4 3.4 0 0 1 4.8 4.8l-8.6 8.6a1.7 1.7 0 0 1-2.4-2.4L15 7.3"/>',
+  alert: '<path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4.5"/><path d="M12 17.5h.01"/>',
+};
+const svg = (name, size = 22, cls = '') =>
+  `<svg class="${cls}" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${PATHS[name]}</svg>`;
+const ico = (name, size = 16) => svg(name, size, 'ic'); /* أيقونة صغيرة جوه النص */
+const ICONS = Object.fromEntries(Object.keys(PATHS).map((k) => [k, svg(k)]));
 const NAV = [
-  ['home', 'الرئيسية', '🏠'], ['doctors', 'الأطباء', '🩺'], ['pharmacies', 'الصيدليات', '💊'],
-  ['labs', 'المعامل', '🧪'], ['hospitals', 'المستشفيات', '🏥'], ['file', 'الملف الطبي', '📁'],
-  ['meds', 'أدويتي', '⏰'], ['assistant', 'المساعد', '✨'],
+  ['home', 'الرئيسية'], ['doctors', 'الأطباء'], ['pharmacies', 'الصيدليات'],
+  ['labs', 'المعامل'], ['hospitals', 'المستشفيات'], ['file', 'الملف الطبي'],
+  ['meds', 'أدويتي'], ['assistant', 'المساعد'],
 ];
 
 /* ================= أدوات ================= */
@@ -50,7 +69,7 @@ const store = {
 let toastTimer;
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2800); }
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-const stars = (r) => `⭐ ${r.toFixed(1)}`;
+const stars = (r) => `${ico('star', 14)} ${r.toFixed(1)}`;
 const initials = (n) => n.replace('د. ', '').trim().charAt(0);
 const empty = (t) => `<div class="empty">${t}</div>`;
 function fillSelect(sel, first, values) { sel.innerHTML = `<option value="">${first}</option>` + values.map((v) => `<option>${esc(v)}</option>`).join(''); }
@@ -58,10 +77,10 @@ const uniq = (arr) => [...new Set(arr)];
 
 /* ================= التنقل ================= */
 function buildNav() {
-  $('#nav').innerHTML = NAV.map(([id, l, i]) => `<a href="#${id}" data-nav="${id}"><span>${i}</span>${l}</a>`).join('');
-  $('#bottom-nav').innerHTML = NAV.map(([id, l, i]) => `<a href="#${id}" data-nav="${id}"><span class="i">${i}</span>${l}</a>`).join('');
-  $('#home-cards').innerHTML = NAV.filter(([id]) => id !== 'home').map(([id, l, i]) =>
-    `<a class="card click tile" href="#${id}"><span class="ico">${i}</span>${l}</a>`).join('');
+  $('#nav').innerHTML = NAV.map(([id, l]) => `<a href="#${id}" data-nav="${id}"><span class="i">${ICONS[id]}</span>${l}</a>`).join('');
+  $('#bottom-nav').innerHTML = NAV.map(([id, l]) => `<a href="#${id}" data-nav="${id}"><span class="i">${ICONS[id]}</span>${l}</a>`).join('');
+  $('#home-cards').innerHTML = NAV.filter(([id]) => id !== 'home').map(([id, l]) =>
+    `<a class="card click tile" href="#${id}"><span class="ico">${ICONS[id]}</span>${l}</a>`).join('');
 }
 function route() {
   let page = location.hash.slice(1) || 'home';
@@ -104,7 +123,7 @@ function doctorDetails(id) {
     <p style="margin-top:12px">${esc(d.bio)}</p>
     <dl class="kv"><dt>التقييم</dt><dd>${stars(d.rating)}</dd><dt>الخبرة</dt><dd>${d.exp} سنة</dd><dt>المدينة</dt><dd>${esc(d.city)}</dd>
       <dt>العيادة</dt><dd>${esc(d.addr)}</dd><dt>الهاتف</dt><dd dir="ltr" style="text-align:right">${esc(d.phone)}</dd></dl>
-    <div class="map-ph">📍 معاينة الموقع (تجريبية)</div>
+    <div class="map-ph">${ico('pin', 18)}&nbsp;معاينة الموقع (تجريبية)</div>
     <p class="meta" style="margin-top:10px">للتواصل مع الدكتور اتصل مباشرة. الحجز غير متاح داخل التطبيق. الاسم والبيانات خيالية.</p>
     <div class="actions"><a class="btn" href="tel:${esc(d.phone.replace(/\s/g, ''))}">اتصال</a><button class="btn ghost" data-close>إغلاق</button></div>`);
 }
@@ -125,7 +144,7 @@ function facilityDetails(id) {
   openDlg(`
     <h2>${esc(x.name)}</h2><p>${esc(x.note)}</p>
     <dl class="kv"><dt>المدينة</dt><dd>${esc(x.city)}</dd><dt>العنوان</dt><dd>${esc(x.addr)}</dd><dt>المواعيد</dt><dd>${esc(x.hours)}</dd>${extra}</dl>
-    <div class="map-ph">📍 معاينة الموقع (تجريبية)</div>
+    <div class="map-ph">${ico('pin', 18)}&nbsp;معاينة الموقع (تجريبية)</div>
     <p class="meta" style="margin-top:10px">المعلومات تقريبية وقد تتغير. اتأكد من الجهة مباشرة. توفر الأدوية غير معروض.</p>
     <div class="actions">${x.er ? '<a class="btn" href="tel:123">اتصل بالإسعاف 123</a>' : ''}<button class="btn ghost" data-close>إغلاق</button></div>`);
 }
@@ -141,7 +160,7 @@ function renderRecords() {
   $('#rec-list').innerHTML = list.length ? list.map((r) => `
     <article class="card">
       <div class="row" style="justify-content:space-between"><h3>${esc(r.title)}</h3><span class="badge">${esc(REC_TYPES[r.type])}</span></div>
-      <div class="meta">${esc(r.date)}${r.file ? ' · 📎 ' + esc(r.file) : ''}</div>
+      <div class="meta">${esc(r.date)}${r.file ? ` · ${ico('clip', 14)} ${esc(r.file)}` : ''}</div>
       <p>${esc(r.notes)}</p>
       <div class="actions"><button class="btn ghost sm" data-rec-edit="${r.id}">تعديل</button><button class="btn ghost sm" data-rec-del="${r.id}">حذف</button></div>
     </article>`).join('') : empty('لسه مفيش سجلات. اضغط «إضافة سجل» عشان تبدأ.');
@@ -180,8 +199,8 @@ function renderMeds() {
   const low = meds.filter((m) => m.left <= LOW);
   const due = meds.filter((m) => m.taken !== today && (!m.end || m.end >= today));
   $('#med-alerts').innerHTML =
-    (low.length ? `<p class="notice" style="background:var(--warn-bg);color:var(--warn)">⚠️ كمية قليلة: ${low.map((m) => esc(m.name)).join('، ')}. فكّر تجدد الدواء.</p>` : '') +
-    (due.length ? `<p class="notice">⏰ لسه ما أخدتش اليوم: ${due.map((m) => `${esc(m.name)} (${esc(m.time)})`).join('، ')}</p>` : '');
+    (low.length ? `<p class="notice" style="background:var(--warn-bg);color:var(--warn)">${ico('alert')} كمية قليلة: ${low.map((m) => esc(m.name)).join('، ')}. فكّر تجدد الدواء.</p>` : '') +
+    (due.length ? `<p class="notice">${ico('meds')} لسه ما أخدتش اليوم: ${due.map((m) => `${esc(m.name)} (${esc(m.time)})`).join('، ')}</p>` : '');
   $('#med-list').innerHTML = meds.length ? meds.map((m) => {
     const taken = m.taken === today;
     return `<article class="card">
