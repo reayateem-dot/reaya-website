@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4A2C3F">
+  <title>ريّاية – دليلك الصحي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar" aria-label="القائمة الرئيسية">
+    <a class="brand" href="#home"><span class="brand-mark">R</span><span class="brand-name">REAYA</span></a>
+    <nav id="nav" class="nav"></nav>
+    <p class="side-note">نسخة تجريبية · البيانات للعرض فقط</p>
+  </aside>
+
+  <main id="app" class="content">
+
+    <section data-page="home">
+      <header class="page-head">
+        <h1>أهلاً بيك في ريّاية</h1>
+        <p>مكان واحد تلاقي فيه الدكتور والصيدلية والمعمل والمستشفى، وتتابع أدويتك وملفك الطبي.</p>
+      </header>
+      <p class="notice">كل المعلومات هنا للتجربة فقط، وممكن تكون غير دقيقة أو قديمة. اتأكد دايمًا من الجهة نفسها قبل ما تعتمد عليها.</p>
+      <div class="grid" id="home-cards"></div>
+      <div class="card emergency">
+        <strong>في حالة طوارئ؟</strong>
+        <span>اتصل بالإسعاف على <b dir="ltr">123</b> فورًا ولا تنتظر.</span>
+      </div>
+    </section>
+
+    <section data-page="doctors" hidden>
+      <header class="page-head"><h1>الأطباء</h1><p>ابحث بالاسم، وفلتر بالتخصص أو المدينة. التواصل مع الدكتور بيتم مباشرة عن طريق بيانات التواصل.</p></header>
+      <div class="filters">
+        <input type="search" id="doc-q" placeholder="ابحث باسم الدكتور…" aria-label="بحث">
+        <select id="doc-spec" aria-label="التخصص"></select>
+        <select id="doc-city" aria-label="المدينة"></select>
+        <select id="doc-rate" aria-label="التقييم">
+          <option value="0">كل التقييمات</option><option value="4.5">4.5 فأكثر</option><option value="4">4 فأكثر</option>
+        </select>
+      </div>
+      <div class="grid" id="doc-list"></div>
+    </section>
+
+    <section data-page="pharmacies" hidden>
+      <header class="page-head"><h1>الصيدليات</h1><p>سلاسل صيدليات معروفة. لا يتم عرض توفر الأدوية الفعلي، اتصل بالفرع للتأكد.</p></header>
+      <div class="filters"><input type="search" id="ph-q" placeholder="ابحث عن صيدلية…"><select id="ph-city"></select></div>
+      <div class="grid" id="ph-list"></div>
+    </section>
+
+    <section data-page="labs" hidden>
+      <header class="page-head"><h1>المعامل</h1><p>معامل تحاليل معروفة وأنواع التحاليل المتاحة بشكل عام.</p></header>
+      <div class="filters"><input type="search" id="lab-q" placeholder="ابحث عن معمل…"><select id="lab-city"></select></div>
+      <div class="grid" id="lab-list"></div>
+    </section>
+
+    <section data-page="hospitals" hidden>
+      <header class="page-head"><h1>المستشفيات</h1><p>مستشفيات كبرى وأقسامها الرئيسية.</p></header>
+      <div class="filters"><input type="search" id="hos-q" placeholder="ابحث عن مستشفى…"><select id="hos-city"></select></div>
+      <div class="grid" id="hos-list"></div>
+    </section>
+
+    <section data-page="file" hidden>
+      <header class="page-head">
+        <h1>الملف الطبي</h1><p>سجّل تاريخك المرضي والحساسية والتقارير. بتتحفظ على جهازك بس.</p>
+        <button class="btn" id="rec-add">+ إضافة سجل</button>
+      </header>
+      <div class="filters"><input type="search" id="rec-q" placeholder="ابحث في السجلات…"><select id="rec-type"></select></div>
+      <div class="grid" id="rec-list"></div>
+    </section>
+
+    <section data-page="meds" hidden>
+      <header class="page-head">
+        <h1>أدويتي</h1><p>اكتب الجرعة زي ما كتبها الدكتور. التطبيق مش بيحسب أو يقترح جرعات.</p>
+        <button class="btn" id="med-add">+ إضافة دواء</button>
+      </header>
+      <div id="med-alerts"></div>
+      <div class="grid" id="med-list"></div>
+    </section>
+
+    <section data-page="assistant" hidden>
+      <header class="page-head"><h1>المساعد الذكي</h1></header>
+      <p class="notice">المساعد يقدم معلومات عامة فقط ولا يغني عن استشارة الطبيب. هو مساعد تجريبي بقواعد جاهزة وليس نموذج ذكاء اصطناعي حقيقي.</p>
+      <div class="chat card">
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        <div class="chips" id="chips"></div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-in" placeholder="اكتب سؤالك…" autocomplete="off" aria-label="رسالتك">
+          <button class="btn" type="submit">إرسال</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <nav id="bottom-nav" class="bottom-nav" aria-label="القائمة"></nav>
+
+  <dialog id="dlg"><div id="dlg-body"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
