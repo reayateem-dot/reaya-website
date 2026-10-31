@@ -87,8 +87,7 @@ function route() {
   if (!NAV.some(([id]) => id === page)) page = 'home';
   $$('[data-page]').forEach((s) => (s.hidden = s.dataset.page !== page));
   $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === page));
-  document.title = `رعاية – ${NAV.find(([id]) => id === page)[1]}`;  window.scrollTo(0, 0);
-  if (page === 'meds') renderMeds();
+  document.title = `رعاية – ${NAV.find(([id]) => id === page)[1]}`;  if (page === 'meds') renderMeds();
   if (page === 'file') renderRecords();
 }
 
