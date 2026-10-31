@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,7 +13,10 @@
 </head>
 <body>
   <aside class="sidebar" aria-label="القائمة الرئيسية">
-    <a class="brand" href="#home"><span class="brand-mark">R</span><span class="brand-name">REAYA</span></a>
+    <a class="brand" href="#home">
+      <span class="brand-mark">ر</span>
+      <span class="brand-name">رعاية</span>
+    </a>
     <nav id="nav" class="nav"></nav>
     <p class="side-note">نسخة تجريبية · البيانات للعرض فقط</p>
   </aside>
@@ -33,48 +37,76 @@
     </section>
 
     <section data-page="doctors" hidden>
-      <header class="page-head"><h1>الأطباء</h1><p>ابحث بالاسم، وفلتر بالتخصص أو المدينة. التواصل مع الدكتور بيتم مباشرة عن طريق بيانات التواصل.</p></header>
+      <header class="page-head">
+        <h1>الأطباء</h1>
+        <p>ابحث بالاسم، وفلتر بالتخصص أو المدينة. التواصل مع الدكتور بيتم مباشرة عن طريق بيانات التواصل.</p>
+      </header>
       <div class="filters">
         <input type="search" id="doc-q" placeholder="ابحث باسم الدكتور…" aria-label="بحث">
         <select id="doc-spec" aria-label="التخصص"></select>
         <select id="doc-city" aria-label="المدينة"></select>
         <select id="doc-rate" aria-label="التقييم">
-          <option value="0">كل التقييمات</option><option value="4.5">4.5 فأكثر</option><option value="4">4 فأكثر</option>
+          <option value="0">كل التقييمات</option>
+          <option value="4.5">4.5 فأكثر</option>
+          <option value="4">4 فأكثر</option>
         </select>
       </div>
       <div class="grid" id="doc-list"></div>
     </section>
 
     <section data-page="pharmacies" hidden>
-      <header class="page-head"><h1>الصيدليات</h1><p>سلاسل صيدليات معروفة. لا يتم عرض توفر الأدوية الفعلي، اتصل بالفرع للتأكد.</p></header>
-      <div class="filters"><input type="search" id="ph-q" placeholder="ابحث عن صيدلية…"><select id="ph-city"></select></div>
+      <header class="page-head">
+        <h1>الصيدليات</h1>
+        <p>سلاسل صيدليات معروفة. لا يتم عرض توفر الأدوية الفعلي، اتصل بالفرع للتأكد.</p>
+      </header>
+      <div class="filters">
+        <input type="search" id="ph-q" placeholder="ابحث عن صيدلية…">
+        <select id="ph-city"></select>
+      </div>
       <div class="grid" id="ph-list"></div>
     </section>
 
     <section data-page="labs" hidden>
-      <header class="page-head"><h1>المعامل</h1><p>معامل تحاليل معروفة وأنواع التحاليل المتاحة بشكل عام.</p></header>
-      <div class="filters"><input type="search" id="lab-q" placeholder="ابحث عن معمل…"><select id="lab-city"></select></div>
+      <header class="page-head">
+        <h1>المعامل</h1>
+        <p>معامل تحاليل معروفة وأنواع التحاليل المتاحة بشكل عام.</p>
+      </header>
+      <div class="filters">
+        <input type="search" id="lab-q" placeholder="ابحث عن معمل…">
+        <select id="lab-city"></select>
+      </div>
       <div class="grid" id="lab-list"></div>
     </section>
 
     <section data-page="hospitals" hidden>
-      <header class="page-head"><h1>المستشفيات</h1><p>مستشفيات كبرى وأقسامها الرئيسية.</p></header>
-      <div class="filters"><input type="search" id="hos-q" placeholder="ابحث عن مستشفى…"><select id="hos-city"></select></div>
+      <header class="page-head">
+        <h1>المستشفيات</h1>
+        <p>مستشفيات كبرى وأقسامها الرئيسية.</p>
+      </header>
+      <div class="filters">
+        <input type="search" id="hos-q" placeholder="ابحث عن مستشفى…">
+        <select id="hos-city"></select>
+      </div>
       <div class="grid" id="hos-list"></div>
     </section>
 
     <section data-page="file" hidden>
       <header class="page-head">
-        <h1>الملف الطبي</h1><p>سجّل تاريخك المرضي والحساسية والتقارير. بتتحفظ على جهازك بس.</p>
+        <h1>الملف الطبي</h1>
+        <p>سجّل تاريخك المرضي والحساسية والتقارير. بتتحفظ على جهازك بس.</p>
         <button class="btn" id="rec-add">+ إضافة سجل</button>
       </header>
-      <div class="filters"><input type="search" id="rec-q" placeholder="ابحث في السجلات…"><select id="rec-type"></select></div>
+      <div class="filters">
+        <input type="search" id="rec-q" placeholder="ابحث في السجلات…">
+        <select id="rec-type"></select>
+      </div>
       <div class="grid" id="rec-list"></div>
     </section>
 
     <section data-page="meds" hidden>
       <header class="page-head">
-        <h1>أدويتي</h1><p>اكتب الجرعة زي ما كتبها الدكتور. التطبيق مش بيحسب أو يقترح جرعات.</p>
+        <h1>أدويتي</h1>
+        <p>اكتب الجرعة زي ما كتبها الدكتور. التطبيق مش بيحسب أو يقترح جرعات.</p>
         <button class="btn" id="med-add">+ إضافة دواء</button>
       </header>
       <div id="med-alerts"></div>
@@ -82,7 +114,9 @@
     </section>
 
     <section data-page="assistant" hidden>
-      <header class="page-head"><h1>المساعد الذكي</h1></header>
+      <header class="page-head">
+        <h1>المساعد الذكي</h1>
+      </header>
       <p class="notice">المساعد يقدم معلومات عامة فقط ولا يغني عن استشارة الطبيب. هو مساعد تجريبي بقواعد جاهزة وليس نموذج ذكاء اصطناعي حقيقي.</p>
       <div class="chat card">
         <div id="chat-log" class="chat-log" aria-live="polite"></div>
